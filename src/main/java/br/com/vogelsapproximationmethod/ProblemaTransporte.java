@@ -38,6 +38,7 @@ public class ProblemaTransporte {
     static double[] oferta = {5147, 3053, 5900, 5044, 6149, 4312};
     static double[] demanda = {1297, 656, 1124, 837, 1445, 1495, 1981, 1440, 1228, 719, 1023, 763, 221, 628, 188, 1119, 1556, 1411, 1017, 1467, 1424, 2396, 913, 1303, 976, 978};
 
+    //Cálculo das penalidades
     public static double[] calcularPenalidadeLinha(double[][] matriz) {
         double[] diferenca = new double[matriz.length];
 
@@ -165,15 +166,20 @@ public class ProblemaTransporte {
 
             imprimirMatriz(matriz);
 
+            //Guardar lista de penalidades em variáveis para facilitar
             double[] penalidadesLinhas = calcularPenalidadeLinha(matriz);
             double[] penalidadesColunas = calcularPenalidadeColuna(matriz);
 
+            //Achar a maior penalidade das linhas e maior penalidade das colunas, e guardar nas variáveis respectivas.
             double maiorPenalidadeLinhas = acharMaior(penalidadesLinhas);
             double maiorPenalidadeColunas = acharMaior(penalidadesColunas);
 
             System.out.println(maiorPenalidadeLinhas);
             System.out.println(maiorPenalidadeColunas);
 
+            /* Verificar se a penalidade maior está nas linhas ou nas colunas. Em seguida, pegar o índice da linha ou
+               coluna com maior penalidade (guardar em x se linha ou y se coluna) e achar o menor valor da linha ou coluna
+               do índice da menor penalidade */
             if (maiorPenalidadeLinhas > maiorPenalidadeColunas) {
                 x = acharIndice(penalidadesLinhas, maiorPenalidadeLinhas);
                 y = acharMenorColuna(matriz, x);
@@ -187,6 +193,8 @@ public class ProblemaTransporte {
             System.out.println("Penalidade coluna: " + Arrays.toString(calcularPenalidadeColuna(matriz)));
 
 
+            /* Pegar o menor valor para oferta ou demanda (de acordo com a necessidade ou disponibilidade) e guardar na variável
+            quantidadeAlocada. Em seguida é calculado o custo total dessa quantidade que foi movimentada. */
             double quantidadeAlocada = menorValor(oferta[y], demanda[x]);
             custoTotal += quantidadeAlocada * matriz[x][y];
 
@@ -195,10 +203,13 @@ public class ProblemaTransporte {
             System.out.println("\n");
             System.out.println("-----------------------------------------------------------------------------");
 
+            //Subtrair a quantidade já alocada das listas de oferta e demanda.
             oferta[y] -= quantidadeAlocada;
             demanda[x] -= quantidadeAlocada;
 
+            //Preencher a matriz nova com a os valores das quantidades alocadas nas posições x e y.
             novaMatriz[x][y] = quantidadeAlocada;
+
 
             if (oferta[y] == 0) {
                 for (int k = 0; k < matriz.length; k++) {
@@ -215,6 +226,7 @@ public class ProblemaTransporte {
         }
         return custoTotal;
     }
+
     public static void main(String[] args) {
 
         double custoTotal = metodoVogel();

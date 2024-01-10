@@ -202,13 +202,13 @@ public class ProblemaTransporte {
 
             if (oferta[y] == 0) {
                 for (int k = 0; k < matriz.length; k++) {
-                    matriz[k][y] = 9999; // Ajuste os custos para um valor alto, pois a oferta é zero.
+                    matriz[k][y] = Integer.MAX_VALUE; // Ajuste os custos para um valor alto, pois a oferta é zero.
                 }
             }
 
             if (demanda[x] == 0) {
                 for (int k = 0; k < matriz[x].length; k++) {
-                    matriz[x][k] = 9999; // Ajuste os custos para um valor alto, pois a demanda é zero.
+                    matriz[x][k] = Integer.MAX_VALUE; // Ajuste os custos para um valor alto, pois a demanda é zero.
                 }
             }
 
